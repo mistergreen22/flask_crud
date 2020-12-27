@@ -19,13 +19,13 @@ def create():
 @users.route('/', methods=['GET'])
 def read_all():
     all_users = db.session.query(User).all()
-    return jsonify([user.serialize for user in all_users])
+    return jsonify([user.json() for user in all_users])
 
 
 @users.route('/<user_id>', methods=['GET'])
 def read_one(user_id):
     user = db.session.query(User).get(user_id)
-    return user.serialize
+    return user.json()
 
 
 @users.route('/<user_id>', methods=['PUT'])

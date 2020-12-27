@@ -8,8 +8,7 @@ class User(db.Model):
     last_name = db.Column(db.String(255), nullable=False)
     address = db.Column(db.String(255), nullable=False)
 
-    @property
-    def serialize(self):
+    def json(self):
         return {
             'id': self.id,
             'first_name': self.first_name,
