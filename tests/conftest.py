@@ -11,8 +11,7 @@ def client():
     with app.app_context():
         db.create_all()
 
-    with app.test_client() as client:
-        yield client
+        with app.test_client() as client:
+            yield client
 
-    with app.app_context():
         db.drop_all()
