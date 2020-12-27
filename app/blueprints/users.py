@@ -25,7 +25,7 @@ def read_all():
 @users.route('/<user_id>', methods=['GET'])
 def read_one(user_id):
     user = User.query.get(user_id)
-    return user.json()
+    return jsonify(user.json())
 
 
 @users.route('/<user_id>', methods=['PUT', 'PATCH'])
