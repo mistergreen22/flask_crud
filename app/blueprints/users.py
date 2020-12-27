@@ -13,7 +13,7 @@ def create():
     db.session.add(new_user)
     db.session.commit()
 
-    return 'new user was created'
+    return jsonify(new_user.json()), 201
 
 
 @users.route('/', methods=['GET'])
