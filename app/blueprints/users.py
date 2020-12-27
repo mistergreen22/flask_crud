@@ -28,22 +28,17 @@ def read_one(user_id):
     return user.json()
 
 
-@users.route('/<user_id>', methods=['PUT'])
+@users.route('/<user_id>', methods=['PUT', 'PATCH'])
 def update(user_id):
+    user = User.query.get(user_id)
     if request.json.get('first_name'):
-        first_name = request.json['first_name']
-        db.session.query(User).filter(User.id == user_id).update(
-            {User.first_name: first_name}, synchronize_session=False)
+        user.first_name = request.json['first_name']
     if request.json.get('last_name'):
-        last_name = request.json['last_name']
-        db.session.query(User).filter(User.id == user_id).update(
-            {User.last_name: last_name}, synchronize_session=False)
+        user.last_name = request.json['last_name']
     if request.json.get('address'):
-        address = request.json['address']
-        db.session.query(User).filter(User.id == user_id).update(
-            {User.address: address}, synchronize_session=False)
+        user.address = request.json['address']
     db.session.commit()
-    return f'User {user_id} was updated with next data {request.json}'
+    return jsonify(user.json())
 
 
 @users.route('/<user_id>', methods=['DELETE'])
