@@ -18,13 +18,13 @@ def create():
 
 @users.route('/', methods=['GET'])
 def read_all():
-    all_users = db.session.query(User).all()
+    all_users = User.query.all()
     return jsonify([user.json() for user in all_users])
 
 
 @users.route('/<user_id>', methods=['GET'])
 def read_one(user_id):
-    user = db.session.query(User).get(user_id)
+    user = User.query.get(user_id)
     return user.json()
 
 
@@ -48,8 +48,8 @@ def update(user_id):
 
 @users.route('/<user_id>', methods=['DELETE'])
 def delete(user_id):
-    user = db.session.query(User).get(user_id)
+    user = User.query.get(user_id)
     db.session.delete(user)
     db.session.commit()
 
-    return f'User with id {user_id} was deleted'
+    return '', 204
