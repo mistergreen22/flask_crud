@@ -1,25 +1,25 @@
 from flask import Blueprint, request, jsonify
 from app.models import User, db
+
 users = Blueprint('users', __name__)
 
 
 @users.route('/', methods=['POST'])
 def create():
-    first_name = request.json['first_name']
-    last_name = request.json['last_name']
-    address = request.json['address']
-
-    new_user = User(first_name=first_name, last_name=last_name, address=address)
-    db.session.add(new_user)
+    user = User(
+        first_name=request.json['first_name'],
+        last_name=request.json['last_name'],
+        address=request.json['address'],
+    )
+    db.session.add(user)
     db.session.commit()
-
-    return jsonify(new_user.json()), 201
+    return jsonify(user.json()), 201
 
 
 @users.route('/', methods=['GET'])
 def read_all():
-    all_users = User.query.all()
-    return jsonify([user.json() for user in all_users])
+    users = User.query.all()
+    return jsonify([user.json() for user in users])
 
 
 @users.route('/<user_id>', methods=['GET'])
@@ -46,5 +46,4 @@ def delete(user_id):
     user = User.query.get(user_id)
     db.session.delete(user)
     db.session.commit()
-
     return '', 204
